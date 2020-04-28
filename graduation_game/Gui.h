@@ -30,23 +30,38 @@ namespace gui
 		// Modifier
 		void setText(const std::string text);
 
-		// Functions
+		// Function
 		void update(const sf::Vector2f& mousePos);
 		void render(sf::RenderTarget& target);
 	};
 
-	class DropDownList
+	class TextureSelector
 	{
 	private:
-		sf::Font& font;
-		gui::Button* activeElement;
-		std::vector<gui::Button*> list;
+		float keytime;
+		const float keytimeMax;
+		float gridSize;
+		bool active;
+		bool hidden;
+		gui::Button* hide_btn;
+		sf::RectangleShape bounds;
+		sf::Sprite sheet;
+		sf::RectangleShape selector;
+		sf::Vector2u mousePosGrid;
+		sf::IntRect textureRect;		
 
 	public:
-		DropDownList(sf::Font& font, std::string list[], unsigned numOfElements, unsigned defalt_index);
-		~DropDownList();
+		TextureSelector(float x, float y, float width, float height, float gridSize, const sf::Texture* texture_sheet, sf::Font& font, std::string text);
+		~TextureSelector();
 
-		void update(const sf::Vector2f& mousePos);
+		// Accessor
+		const bool& getActive() const;
+		const sf::IntRect& getTextureRect() const;
+		const bool getKeytime();
+
+		// Function
+		void updateKeytime(const float& dt);
+		void update(const sf::Vector2i& mousePosWindow, const float& dt);
 		void render(sf::RenderTarget& target);
 	};
 }

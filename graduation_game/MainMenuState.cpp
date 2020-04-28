@@ -51,14 +51,8 @@ void MainMenuState::initKeybinds()
 
 void MainMenuState::initButtons()
 {
-	this->buttons["GAME_STATE"] = new gui::Button(840.f, 650.f, 240.f, 70.f,
+	this->buttons["GAME_STATE"] = new gui::Button(840.f, 750.f, 240.f, 70.f,
 		&this->font, "New Game",
-		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 200),
-		sf::Color(20, 20, 20, 200)
-	);
-
-	this->buttons["SETTING_STATE"] = new gui::Button(840.f, 750.f, 240.f, 70.f,
-		&this->font, "Settings",
 		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 200),
 		sf::Color(20, 20, 20, 200)
 	);
@@ -76,8 +70,8 @@ void MainMenuState::initButtons()
 	);
 }
 
-MainMenuState::MainMenuState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states)
-	: State(window, supportedKeys, states)
+MainMenuState::MainMenuState(StateData* state_data)
+	: State(state_data)
 {
 	this->initVariables();
 	this->initBackground();
@@ -112,19 +106,13 @@ void MainMenuState::updateButtons()
 	// New game
 	if (this->buttons["GAME_STATE"]->isPressed())
 	{
-		this->states->push(new GameState(this->window, this->supportedKeys, this->states));
-	}
-
-	// Settings
-	if (this->buttons["SETTING_STATE"]->isPressed())
-	{
-		this->states->push(new SettingState(this->window, this->supportedKeys, this->states));
+		this->states->push(new GameState(this->stateData));
 	}
 
 	// Editor
 	if (this->buttons["EDITOR_STATE"]->isPressed())
 	{
-		this->states->push(new EditorState(this->window, this->supportedKeys, this->states));
+		this->states->push(new EditorState(this->stateData));
 	}
 
 	// Quit the game

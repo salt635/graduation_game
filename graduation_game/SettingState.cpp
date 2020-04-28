@@ -58,8 +58,8 @@ void SettingState::initButtons()
 	);
 }
 
-SettingState::SettingState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states)
-	: State(window, supportedKeys, states)
+SettingState::SettingState(StateData* state_data)
+	: State(state_data)
 {
 	this->initVariables();
 	this->initBackground();

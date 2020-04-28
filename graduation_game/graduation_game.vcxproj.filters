@@ -43,9 +43,6 @@
     <ClCompile Include="TileMap.cpp">
       <Filter>Tile\Map</Filter>
     </ClCompile>
-    <ClCompile Include="SettingState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
     <ClCompile Include="Gui.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
@@ -92,9 +89,6 @@
     </ClInclude>
     <ClInclude Include="TileMap.h">
       <Filter>Tile\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingState.h">
-      <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="Gui.h">
       <Filter>Entities</Filter>

@@ -7,6 +7,7 @@ void Game::initVariables()
 	this->window = NULL;
 	this->fullscreen = false;
 	this->dt = 0.f;
+	this->gridSize = 100.f;
 }
 
 void Game::initWindow()
@@ -66,17 +67,27 @@ void Game::initKeys()
 	}
 }
 
+void Game::initStateData()
+{
+	this->stateData.window = this->window;
+	this->stateData.supportedKeys = &this->supportedKeys;
+	this->stateData.states = &this->states;
+	this->stateData.gridSize = this->gridSize;
+}
+
 
 void Game::initStates()
 {
-	this->states.push(new MainMenuState(this->window, &this->supportedKeys, &this->states));
+	this->states.push(new MainMenuState(&this->stateData));
 }
 
 // 持失切, 社瑚切
 Game::Game()
 {
-	this->initWindow();
+	this->initVariables();
+	this->initWindow();	
 	this->initKeys();
+	this->initStateData();
 	this->initStates();
 }
 

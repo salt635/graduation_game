@@ -21,7 +21,7 @@ private:
 	void initButtons();
 
 public:
-	SettingState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states);
+	SettingState(StateData* state_data);
 	virtual ~SettingState();
 
 	// Functions

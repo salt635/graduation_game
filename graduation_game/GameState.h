@@ -1,6 +1,7 @@
 #pragma once
 #include "State.h"
 #include "PauseMenu.h"
+#include "TileMap.h"
 
 class GameState :
 	public State
@@ -10,18 +11,19 @@ private:
 	PauseMenu* pmenu;
 
 	Player* player;
-	sf::Texture backgroundTexture;
-	sf::RectangleShape background;
+	sf::Texture texture;
 
-	void initBackground();
+	TileMap* tileMap;
+
 	void initKeybinds();
 	void initFonts();
 	void initTextures();
 	void initPauseMenu();
 	void initPlayers();
+	void initTileMap();
 
 public:
-	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states);
+	GameState(StateData* state_data);
 	virtual ~GameState();
 
 	void updateInput(const float& dt);

@@ -6,6 +6,7 @@ class Game
 {
 private:
 	// Variables
+	StateData stateData;
 	sf::RenderWindow *window;
 	sf::Event sfEvent;
 	std::vector<sf::VideoMode> videoModes;
@@ -19,10 +20,13 @@ private:
 
 	std::map<std::string, int> supportedKeys;
 
+	float gridSize;
+
 	// √ ±‚»≠
-	void initVariables();
+	void initVariables();	
 	void initWindow();
 	void initKeys();
+	void initStateData();
 	void initStates();
 
 public:
