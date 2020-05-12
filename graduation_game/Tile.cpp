@@ -28,6 +28,16 @@ Tile::~Tile()
 
 }
 
+const bool & Tile::getCollision() const
+{
+	return this->collision;
+}
+
+const sf::Vector2f & Tile::getPosition() const
+{
+	return this->shape.getPosition();
+}
+
 // Function
 const std::string Tile::getAsString() const
 {

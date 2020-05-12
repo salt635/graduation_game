@@ -1,6 +1,27 @@
 #include "stdafx.h"
 #include "GameState.h"
 
+void GameState::initDeferredRender()
+{
+	this->renderTexture.create(this->window->getSize().x, this->window->getSize().y);
+
+	this->renderSprite.setTexture(this->renderTexture.getTexture());
+	this->renderSprite.setTextureRect(sf::IntRect(0, 0, this->window->getSize().x, this->window->getSize().y));
+}
+
+void GameState::initView()
+{
+	this->view.setSize(sf::Vector2f(
+		static_cast<float>(this->window->getSize().x),
+		static_cast<float>(this->window->getSize().y))
+	);
+
+	this->view.setCenter(sf::Vector2f(
+		static_cast<float>(this->window->getSize().x) / 2.f,
+		static_cast<float>(this->window->getSize().y) / 2.f)
+	);
+}
+
 // Init functions
 void GameState::initKeybinds()
 {
@@ -50,16 +71,20 @@ void GameState::initPlayers()
 void GameState::initTileMap()
 {
 	this->tileMap = new TileMap(this->stateData->gridSize, 10, 10, "Resources/Images/Tiles/tilesheet1.png");
+	this->tileMap->loadFromFile("text.slmp");
 }
 
 //持失切, 社瑚切
 GameState::GameState(StateData* state_data)
 	: State(state_data)
 {
+	this->initDeferredRender();
+	this->initView();
 	this->initKeybinds();
 	this->initFonts();
 	this->initTextures();
 	this->initPauseMenu();
+
 	this->initPlayers();
 	this->initTileMap();
 }
@@ -69,6 +94,12 @@ GameState::~GameState()
 	delete this->pmenu;
 	delete this->player;
 	delete this->tileMap;
+}
+
+// Function
+void GameState::updateView(const float & dt)
+{
+	this->view.setCenter(this->player->getPosition());
 }
 
 void GameState::updateInput(const float & dt)
@@ -104,19 +135,21 @@ void GameState::updatePauseMenuButtons()
 
 void GameState::update(const float& dt)
 {
-	this->updateMousePositions();
+	this->updateMousePositions(&this->view);
 	this->updateKeytime(dt);
 	this->updateInput(dt);
 
 	if (!this->paused)
 	{
+		this->updateView(dt);
+
 		this->updatePlayerInput(dt);
 
 		this->player->update(dt);
 	}
 	else
 	{
-		this->pmenu->update(this->mousePosView);
+		this->pmenu->update(this->mousePosWindow);
 		this->updatePauseMenuButtons();
 	}
 }
@@ -126,12 +159,20 @@ void GameState::render(sf::RenderTarget* target)
 	if (!target)
 		target = this->window;
 
-	//this->map.render(*target);
+	this->renderTexture.clear();
 
-	this->player->render(*target);
+	this->renderTexture.setView(this->view);
+	this->tileMap->render(this->renderTexture);
+
+	this->player->render(this->renderTexture);
 
 	if (this->paused)
 	{
-		this->pmenu->render(*target);
+		this->renderTexture.setView(this->renderTexture.getDefaultView());
+		this->pmenu->render(this->renderTexture);
 	}
+
+	this->renderTexture.display();
+	this->renderSprite.setTexture(this->renderTexture.getTexture());
+	target->draw(this->renderSprite);
 }

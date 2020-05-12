@@ -31,7 +31,7 @@ namespace gui
 		void setText(const std::string text);
 
 		// Function
-		void update(const sf::Vector2f& mousePos);
+		void update(const sf::Vector2i& mousePosWindow);
 		void render(sf::RenderTarget& target);
 	};
 

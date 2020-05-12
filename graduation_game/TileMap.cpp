@@ -48,6 +48,11 @@ TileMap::TileMap(float gridSize, unsigned width, unsigned height, std::string te
 	{
 		std::cout << "ERROR::TILEMAP::FAILED TO LOAD TILETEXTURESHEET::FILENAME: " << texture_file << "\n";
 	}
+
+	this->collisionBox.setSize(sf::Vector2f(gridSize, gridSize));
+	this->collisionBox.setFillColor(sf::Color(255, 0, 0, 50));
+	this->collisionBox.setOutlineColor(sf::Color::Red);
+	this->collisionBox.setOutlineThickness(1.f);
 }
 
 TileMap::~TileMap()
@@ -62,7 +67,7 @@ const sf::Texture * TileMap::getTileSheet() const
 }
 
 // Function
-void TileMap::addTile(const unsigned x, const unsigned y, const unsigned z, const sf::IntRect& texture_rect)
+void TileMap::addTile(const unsigned x, const unsigned y, const unsigned z, const sf::IntRect& texture_rect, const bool& collision, const short& type)
 {
 	if (x < this->maxSize.x && x >= 0 &&
 		y < this->maxSize.y && y >= 0 &&
@@ -71,7 +76,7 @@ void TileMap::addTile(const unsigned x, const unsigned y, const unsigned z, cons
 		if (this->map[x][y][z] == nullptr)
 		{
 			// 아무것도 없으면 타일추가
-			this->map[x][y][z] = new Tile(x, y, this->gridSizeF, this->tileSheet, texture_rect);
+			this->map[x][y][z] = new Tile(x, y, this->gridSizeF, this->tileSheet, texture_rect, collision, type);
 			std::cout << "DEBUG : ADDED TILE!" << "\n";
 		}
 	}
@@ -85,7 +90,7 @@ void TileMap::removeTile(const unsigned x, const unsigned y, const unsigned z)
 	{
 		if (this->map[x][y][z] != nullptr)
 		{
-			// 뭔가 있으면 타일 삭제
+			// 타일이 있으면 타일 삭제
 			delete this->map[x][y][z];
 			this->map[x][y][z] = nullptr;
 			std::cout << "DEBUG : REMOVED TILE!" << "\n";
@@ -204,12 +209,17 @@ void TileMap::loadFromFile(const std::string file_name)
 	in_file.close();
 }
 
+void TileMap::updateCollision(Entity * entity)
+{
+
+}
+
 void TileMap::update()
 {
 
 }
 
-void TileMap::render(sf::RenderTarget & target)
+void TileMap::render(sf::RenderTarget & target, Entity* entity)
 {
 	for (auto &x : this->map)
 	{
@@ -218,7 +228,14 @@ void TileMap::render(sf::RenderTarget & target)
 			for (auto *z : y)
 			{
 				if(z != nullptr)
+				{ 
 					z->render(target);
+					if (z->getCollision())
+					{
+						this->collisionBox.setPosition(z->getPosition());
+						target.draw(this->collisionBox);
+					}
+				}					
 			}
 		}
 	}
