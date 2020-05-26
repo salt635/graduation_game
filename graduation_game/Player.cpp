@@ -20,8 +20,9 @@ Player::Player(float x, float y, sf::Texture& texture_sheet)
 	this->setPosition(x, y);
 
 	this->createHitboxComponent(this->sprite, 16.f, 50.f, 48.f, 58.f);
-	this->createMovementComponent(350.f, 15.f, 5.f);
+	this->createMovementComponent(350.f, 1500.f, 500.f);
 	this->createAnimationComponent(texture_sheet);
+	this->createAttributeComponent();
 
 	this->animationComponent->addAnimation("IDLE", 15.f, 0, 0, 3, 0, 64, 108);
 	this->animationComponent->addAnimation("WALK", 10.f, 4, 0, 7, 0, 64, 108);
@@ -31,6 +32,32 @@ Player::Player(float x, float y, sf::Texture& texture_sheet)
 Player::~Player()
 {
 
+}
+
+AttributeComponent * Player::getAttributeComponent()
+{
+	return this->attributeComponent;
+}
+
+// Function
+void Player::loseHP(const int hp)
+{
+	this->attributeComponent->hp -= hp;
+
+	if (this->attributeComponent->hp < 0)
+	{
+		this->attributeComponent->hp = 0;
+	}
+}
+
+void Player::gainHP(const int hp)
+{
+	this->attributeComponent->hp += hp;
+
+	if (this->attributeComponent->hp > this->attributeComponent->hpMax)
+	{
+		this->attributeComponent->hp = this->attributeComponent->hpMax;
+	}
 }
 
 void Player::updateAttack()
@@ -80,15 +107,12 @@ void Player::updateAnimation(const float & dt)
 	{
 		this->animationComponent->play("WALK", dt, this->movementComponent->getVelocity().y, this->movementComponent->getMaxVelocity());
 	}
-	//else if (this->movementComponent->getState(JUMP))
-	//{
-
-	//}
 }
 
-//Functions
 void Player::update(const float & dt)
 {
+	this->attributeComponent->update();
+
 	this->movementComponent->update(dt);
 
 	this->updateAttack();
@@ -96,4 +120,11 @@ void Player::update(const float & dt)
 	this->updateAnimation(dt);
 
 	this->hitboxComponent->update();
+}
+
+void Player::render(sf::RenderTarget & target)
+{
+	target.draw(this->sprite);
+
+	this->hitboxComponent->render(target);
 }

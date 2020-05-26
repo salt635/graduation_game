@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationComponent.cpp" />
+    <ClCompile Include="AttributeComponent.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="EditorState.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -31,6 +32,7 @@
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerGUI.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -41,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationComponent.h" />
+    <ClInclude Include="AttributeComponent.h" />
     <ClInclude Include="Gui.h" />
     <ClInclude Include="EditorState.h" />
     <ClInclude Include="Entity.h" />
@@ -51,6 +54,7 @@
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerGUI.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tile.h" />
@@ -162,12 +166,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\SFMLx86\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>sfml-main.lib;sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;sfml-network.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\SFMLx86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

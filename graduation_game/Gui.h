@@ -25,7 +25,7 @@ namespace gui
 
 		// Accessor
 		const bool isPressed() const;
-		const std::string& getText() const;
+		const std::string getText() const;
 
 		// Modifier
 		void setText(const std::string text);

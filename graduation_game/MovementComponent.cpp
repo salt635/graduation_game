@@ -61,13 +61,29 @@ const bool MovementComponent::getState(const short unsigned state) const
 	return false;
 }
 
+void MovementComponent::stopVelocity()
+{
+	this->velocity.x = 0.f;
+	this->velocity.y = 0.f;
+}
+
+void MovementComponent::stopVelocityX()
+{
+	this->velocity.x = 0.f;
+}
+
+void MovementComponent::stopVelocityY()
+{
+	this->velocity.y = 0.f;
+}
+
 // Functions
 void MovementComponent::move(const float x, const float y, const float& dt)
 {
 	/* sprite가 최대 속도에 도달할 때까지 가속. */
 	
-	this->velocity.x += this->acceleration * x;
-	this->velocity.y += this->acceleration * y;
+	this->velocity.x += this->acceleration * x * dt;
+	this->velocity.y += this->acceleration * y * dt;
 }
 
 void MovementComponent::update(const float & dt)
@@ -84,7 +100,7 @@ void MovementComponent::update(const float & dt)
 			this->velocity.x = this->maxVelocity;
 
 		// Deceleration
-		this->velocity.x -= deceleration;
+		this->velocity.x -= deceleration * dt;
 		if (this->velocity.x < 0.f)
 			this->velocity.x = 0.f;
 	}
@@ -95,7 +111,7 @@ void MovementComponent::update(const float & dt)
 			this->velocity.x = -this->maxVelocity;
 
 		// Deceleration
-		this->velocity.x += deceleration;
+		this->velocity.x += deceleration * dt;
 		if (this->velocity.x > 0.f)
 			this->velocity.x = 0.f;
 	}
@@ -107,7 +123,7 @@ void MovementComponent::update(const float & dt)
 			this->velocity.y = this->maxVelocity;
 
 		// Deceleration
-		this->velocity.y -= deceleration;
+		this->velocity.y -= deceleration * dt;
 		if (this->velocity.y < 0.f)
 			this->velocity.y = 0.f;
 	}
@@ -118,7 +134,7 @@ void MovementComponent::update(const float & dt)
 			this->velocity.y = -this->maxVelocity;
 
 		// Deceleration
-		this->velocity.y += deceleration;
+		this->velocity.y += deceleration * dt;
 		if (this->velocity.y > 0.f)
 			this->velocity.y = 0.f;
 	}
