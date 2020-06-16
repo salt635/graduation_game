@@ -99,7 +99,7 @@ void gui::Button::render(sf::RenderTarget& target)
 }
 
 
-//TEXTURE SELECTOR ==========================================
+// TEXTURE SELECTOR ==========================================
 gui::TextureSelector::TextureSelector(float x, float y,
 	float width, float height, float gridSize,
 	const sf::Texture* texture_sheet, sf::Font& font, std::string text)
@@ -108,7 +108,7 @@ gui::TextureSelector::TextureSelector(float x, float y,
 	this->gridSize = gridSize;
 	this->active = false;
 	this->hidden = false;
-	float offset = 60.f;
+	float offset = gridSize;
 
 	this->bounds.setSize(sf::Vector2f(width, height));
 	this->bounds.setPosition(x + offset, y);

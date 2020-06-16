@@ -55,6 +55,9 @@
     <ClCompile Include="AttributeComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationComponent.h">
@@ -107,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="AttributeComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

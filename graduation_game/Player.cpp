@@ -27,11 +27,18 @@ Player::Player(float x, float y, sf::Texture& texture_sheet)
 	this->animationComponent->addAnimation("IDLE", 15.f, 0, 0, 3, 0, 64, 108);
 	this->animationComponent->addAnimation("WALK", 10.f, 4, 0, 7, 0, 64, 108);
 	this->animationComponent->addAnimation("ATTACK", 8.f, 8, 0, 8, 0, 64, 108);
+
+	this->weapon_texture.loadFromFile("Resources/Images/Sprites/Player/bow.png");
+	this->weapon_sprite.setTexture(this->weapon_texture);
+	this->weapon_sprite.setOrigin(
+		this->weapon_sprite.getGlobalBounds().width - 64.f,
+		this->weapon_sprite.getGlobalBounds().height / 2.f
+	);
 }
 
 Player::~Player()
 {
-
+	
 }
 
 AttributeComponent * Player::getAttributeComponent()
@@ -109,7 +116,7 @@ void Player::updateAnimation(const float & dt)
 	}
 }
 
-void Player::update(const float & dt)
+void Player::update(const float & dt, sf::Vector2f& mouse_pos_view)
 {
 	this->attributeComponent->update();
 
@@ -120,11 +127,23 @@ void Player::update(const float & dt)
 	this->updateAnimation(dt);
 
 	this->hitboxComponent->update();
+
+	// Weapon
+	this->weapon_sprite.setPosition(this->getCenter());
+	// Rotate weapon
+	float dX = mouse_pos_view.x - this->weapon_sprite.getPosition().x;
+	float dY = mouse_pos_view.y - this->weapon_sprite.getPosition().y;
+
+	const float PI = 3.141592;
+	float deg = atan2(dY, dX) * 180 / PI;
+
+	this->weapon_sprite.setRotation(deg);
 }
 
 void Player::render(sf::RenderTarget & target)
 {
 	target.draw(this->sprite);
+	target.draw(this->weapon_sprite);
 
 	this->hitboxComponent->render(target);
 }
